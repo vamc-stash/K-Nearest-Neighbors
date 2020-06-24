@@ -3,10 +3,6 @@ import pandas as pd
 import matplotlib.pyplot as plt 
 import math
 
-# python3 -m venv knn
-# source knn/bin/activate
-# deactivate
-
 # set seed value in order to obtain same random data everytime
 np.random.seed(0)
 
