@@ -1,6 +1,6 @@
 # K-Nearest-Neighbors
 
-This repo implements [KNN Algorithm](https://github.com/vamc-stash/K-Nearest-Neighbors/blob/master/source.py) from scratch in Python.
+This repo implements KNN [Classification](https://github.com/vamc-stash/K-Nearest-Neighbors/blob/master/knnClassification.py) and [Regression](https://github.com/vamc-stash/K-Nearest-Neighbors/blob/master/knnRegression.py) algorithms from scratch in Python.
 
 
 ## Installations
