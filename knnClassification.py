@@ -122,37 +122,40 @@ if __name__ == '__main__':
 	# split data into training and testing sets
 	X_train, X_test, y_train, y_test = train_test_split(X, y, random_state = 0)
 
-	# create  a KNN classifier object with 'k' = 5
-	k = 5
-	knn_clf = KNN(k)
+	# create  a KNN classifier object
 
-	# train classifier
-	knn_clf.fit(X_train, y_train)
+	for k in range(1, math.ceil(math.sqrt(len(X_train)))):
 
-	# test accuracy of classifier
-	accuracy = knn_clf.score(X_test, y_test)
-	print("Test Accuracy: {}%".format(accuracy))
+		knn_clf = KNN(k)
 
-	# predict labels of sample data using trained classifier
+		# train classifier
+		knn_clf.fit(X_train, y_train)
 
-	# Query Sample 1: [30, 40]
-	y_pred = knn_clf.predict([30,40])
+		# test accuracy of classifier
+		accuracy = knn_clf.score(X_test, y_test)
+		print("\nTest Accuracy with k = {} is: {}%".format(k, accuracy))
 
-	plt.scatter(30, 40, marker = '*', c = "red", label = "query_point")
-	plt.savefig('data_along_with_query.png')
+		# predict labels of sample data using trained classifier
+		print("Predictions with k = {} is:".format(k))
 
-	print("predicted target is {}".format(target_lookup[y_pred]))
+		# Query Sample 1: [30, 40]
+		y_pred = knn_clf.predict([30,40])
 
+		plt.scatter(30, 40, marker = '*', c = "red", label = "query_point")
+		plt.savefig('data_along_with_query.png')
 
-	# Query Sample 2: [3, 5]
-	y_pred = knn_clf.predict([3,5])
-	print("predicted target is {}".format(target_lookup[y_pred]))
+		print("predicted target is {}".format(target_lookup[y_pred]))
 
 
-    # Query Sample 3: [20, 30]
-	y_pred = knn_clf.predict([20, 30], dist_func = 'manhattan')
-	print("predicted target is {}".format(target_lookup[y_pred]))
+		# Query Sample 2: [3, 5]
+		y_pred = knn_clf.predict([3,5])
+		print("predicted target is {}".format(target_lookup[y_pred]))
 
-    # Query Sample 4: [56, 78]
-	y_pred = knn_clf.predict([56,78])
-	print("predicted target is {}".format(target_lookup[y_pred]))
+
+	    # Query Sample 3: [20, 30]
+		y_pred = knn_clf.predict([20, 30], dist_func = 'manhattan')
+		print("predicted target is {}".format(target_lookup[y_pred]))
+
+	    # Query Sample 4: [56, 78]
+		y_pred = knn_clf.predict([56,78])
+		print("predicted target is {}".format(target_lookup[y_pred]))

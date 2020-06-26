@@ -76,20 +76,17 @@ class KNN:
 
 	def score(self, x_test, y_test):
 
-		correct_predictions = 0
+		se = 0
 
 		for x,y in zip(x_test.values.tolist(), y_test.values.tolist()):
 			y_pred = self.predict(x)
 
-			#since target values are integers
-			y_pred = round(y_pred, 0)
+			se += ((y_pred - y) ** 2)
 
-			if(y_pred == y):
-				correct_predictions += 1
+		mse = (se)/len(y_test)
+		rmse = math.sqrt(mse)	
 
-		accuracy = round((correct_predictions/len(x_test)) * 100, 2)	
-
-		return accuracy
+		return rmse
 
 
 def split_features_and_target(data):
@@ -116,34 +113,37 @@ if __name__ == '__main__':
 	# split data into training and testing sets
 	X_train, X_test, y_train, y_test = train_test_split(X, y, random_state = 0)
 
-	# create  a KNN classifier object with 'k' = 5
-	k = 5
-	knn_clf = KNN(k)
+	# create  a KNN classifier object
+	for k in range(1, math.ceil(math.sqrt(len(X_train)))):
 
-	# train classifier
-	knn_clf.fit(X_train, y_train)
+		knn_clf = KNN(k)
 
-	# test accuracy of classifier
-	accuracy = knn_clf.score(X_test, y_test)
-	print("Test Accuracy: {}%".format(accuracy))
+		# train classifier
+		knn_clf.fit(X_train, y_train)
 
-	# predict labels of sample data using trained classifier
+		# test accuracy of classifier
+		rmse = knn_clf.score(X_test, y_test)
+		print("\nRoot Mean Squared Error with k = {} is: {}".format(k, rmse))
 
-	# Query Sample 1: [30, 40]
-	y_pred = knn_clf.predict([30,40])
+		
+		# predict labels of sample data using trained classifier
+		print("Predictions with k = {} is:".format(k))
 
-	print("predicted target is {}".format(y_pred))
+		# Query Sample 1: [30, 40]
+		y_pred = knn_clf.predict([30,40])
 
-
-	# Query Sample 2: [3, 5]
-	y_pred = knn_clf.predict([3,5])
-	print("predicted target is {}".format(y_pred))
+		print("predicted target is {}".format(y_pred))
 
 
-    # Query Sample 3: [20, 30]
-	y_pred = knn_clf.predict([20, 30], dist_func = 'manhattan')
-	print("predicted target is {}".format(y_pred))
+		# Query Sample 2: [3, 5]
+		y_pred = knn_clf.predict([3,5])
+		print("predicted target is {}".format(y_pred))
 
-    # Query Sample 4: [56, 78]
-	y_pred = knn_clf.predict([56,78])
-	print("predicted target is {}".format(y_pred))
+
+	    # Query Sample 3: [20, 30]
+		y_pred = knn_clf.predict([20, 30], dist_func = 'manhattan')
+		print("predicted target is {}".format(y_pred))
+
+	    # Query Sample 4: [56, 78]
+		y_pred = knn_clf.predict([56,78])
+		print("predicted target is {}".format(y_pred))
